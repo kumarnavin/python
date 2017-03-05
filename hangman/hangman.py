@@ -26,6 +26,17 @@ def initializeGuessedWord(lenWord):
 	guessedLetters = ["_"] * lenWord
 	return guessedLetters
 
+# Pick up a new letter (not already guessed before)
+def pickALetter(alreadyGuessed):
+	isAlreadyPicked = True
+	inputLetter = ""
+	while isAlreadyPicked:
+		inputLetter = input("\nInput a letter: ").upper()
+		if (inputLetter in alreadyGuessed):
+			print("You have already chosen this letter. Choose a different one")
+		else:
+			isAlreadyPicked = False
+	return inputLetter
 
 # This function prints the word.
 # optional boolean doMask is passed as True for chosen word so we don't display actual word.
@@ -49,7 +60,7 @@ mode = input("Pick the mode (kid or adult): ").upper()
 # Initialize variables
 maxAttempts = 6
 numOfAttempts = 0
-answered = False
+isAnswered = False
 print("You will have total " + str(maxAttempts) + " attempts to correctly guess the word.")
 
 # Choose a word
@@ -64,39 +75,35 @@ guessedLetters = initializeGuessedWord(lenChosenWord)
 printWordFormatted(guessedLetters)
 
 # Maintain the list of all guessed letters (matched or unmatched)
-guessList = []
+alreadyGuessed = []
 
 # Loop while player has some attempts remaining
 while (numOfAttempts < maxAttempts and
-		   not answered):
+		   not isAnswered):
 	correctGuess = False
-	inputLetter = input("\nInput a letter: ").upper()
-	if (inputLetter in guessList):
-		print("You have already chosen this letter. Choose a different one")
-		continue
-	guessList.append(inputLetter)
+	inputLetter = pickALetter(alreadyGuessed)
+	alreadyGuessed.append(inputLetter)
 	for i in range(0, lenChosenWord):
 		# if letter not guessed yet, see it exists in chosen word
 		if (guessedLetters[i] == '_' and
 					chosenLetters[i] == inputLetter):
 			guessedLetters[i] = inputLetter
 			correctGuess = True
-	answered = (chosenLetters == guessedLetters)
+		isAnswered = (chosenLetters == guessedLetters)
 	if not correctGuess:
 		numOfAttempts += 1
 	printWordFormatted(guessedLetters)
 	print("\nAttempts remaining: ", (maxAttempts - numOfAttempts))
-	print("Guessed letters so far", guessList)
+	print("Guessed letters so far", alreadyGuessed)
 
 print("********************************")
 print("Chosen word was:", chosenWord)
 print("You guessed:    ", ''.join(map(str, guessedLetters)))
 print("********************************")
 
-if answered:
+if isAnswered:
 	print("Congratulations! You guessed the word correctly.")
 else:
 	print("You exceeded number of attempts. Better luck next time!")
 
-
-# end of file
+# End of file
