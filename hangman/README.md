@@ -1,7 +1,7 @@
 ## Synopsis
 
 This is popular Hangman game. It invokes REST API to download a word dictionary, picks up a word and then lets player guess the work correctly.
-Player can enter the game in either kid or adult mode. Kid mode generates smaller words (3 o4 4 letters).
+Player can enter the game in either kid or adult mode. Kid mode generates the smaller words (3 or 4 letters).
 
 ## Code Example
 
